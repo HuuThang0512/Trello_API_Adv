@@ -44,8 +44,6 @@ const login = async (req, res, next) => {
       .message(EMAIL_RULE_MESSAGE),
     password: Joi.string()
       .required()
-      .pattern(PASSWORD_RULE)
-      .message(PASSWORD_RULE_MESSAGE),
   });
 
   try {

@@ -36,7 +36,7 @@ const createNew = async (reqBody) => {
     const customHtml = `
       <h2>Verify your email</h2>
       <p>Welcome to our website</p>
-      <a href="${verificationEmail}">Click here to verify your email</a>
+      <a href="${verificationEmail}">${WEBSITE_DOMAIN}/account/verification?email=${getNewUser.email}&token=${getNewUser.verifyToken}</a>
     `;
     // Gọi tới provider để gửi email
     await BrevoProvider.sendEmail(getNewUser.email, customSubject, customHtml);
@@ -59,7 +59,7 @@ const verifyAccount = async (reqBody) => {
     }
     if (existUser.isActive)
       throw new ApiError(StatusCodes.NOT_ACCEPTABLE, "Account already active");
-    const updatedUser = await userModel.updateOneById(existUser._id, {
+    const updatedUser = await userModel.update(existUser._id, {
       isActive: true,
       verifyToken: null,
     });
@@ -104,9 +104,7 @@ const login = async (reqBody) => {
     accessToken,
     refreshToken,
   };
-  
 };
-
 
 export const userService = {
   createNew,
